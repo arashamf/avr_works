@@ -1,5 +1,5 @@
 
-AVRASM ver. 2.1.17  E:\pr_sm32\avr\test.asm Fri Jul 22 16:32:52 2022
+AVRASM ver. 2.1.17  E:\pr_sm32\avr\test.asm Wed Jul 27 17:27:58 2022
 
 
 EQU  SIGNATURE_000 0000001e
@@ -507,9 +507,11 @@ EQU  ACIaddr      00000010
 EQU  TWIaddr      00000011
 EQU  SPMRaddr     00000012
 EQU  INT_VECTORS_SIZE 00000013
-EQU  Delay        00000005
-CSEG Start        00000006
-CSEG Wait         0000000d
-CSEG WLoop0       0000000e
-CSEG WLoop1       0000000f
-CSEG WLoop2       00000010
+DEF  temp         r16
+DEF  count_time   r17
+DEF  leds_port    r18
+EQU  leds         00000003
+CSEG RESET        0000001b
+CSEG TIM0         00000013
+CSEG end_timer    00000016
+CSEG G_cykle      0000002a

@@ -19,10 +19,9 @@
   <FILE>E:\pr_sm32\avr\test.map</FILE>
  </OUTPUT_FILES>
  <LABELS>
-  <Start><FILE>E:\pr_sm32\avr\test.asm</FILE><LINE>20</LINE></Start>
-  <Wait><FILE>E:\pr_sm32\avr\test.asm</FILE><LINE>30</LINE></Wait>
-  <WLoop0><FILE>E:\pr_sm32\avr\test.asm</FILE><LINE>32</LINE></WLoop0>
-  <WLoop1><FILE>E:\pr_sm32\avr\test.asm</FILE><LINE>34</LINE></WLoop1>
-  <WLoop2><FILE>E:\pr_sm32\avr\test.asm</FILE><LINE>36</LINE></WLoop2>
+  <RESET><FILE>E:\pr_sm32\avr\test.asm</FILE><LINE>48</LINE></RESET>
+  <TIM0><FILE>E:\pr_sm32\avr\test.asm</FILE><LINE>34</LINE></TIM0>
+  <end_timer><FILE>E:\pr_sm32\avr\test.asm</FILE><LINE>39</LINE></end_timer>
+  <G_cykle><FILE>E:\pr_sm32\avr\test.asm</FILE><LINE>74</LINE></G_cykle>
  </LABELS>
 </ASSEMBLER_INFO>
