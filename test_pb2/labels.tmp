@@ -1,0 +1,33 @@
+<ASSEMBLER_INFO>
+ <VERSION>2.1.17</VERSION>
+ <DEVICE>ATmega8</DEVICE>
+ <WORKING_DIR>E:\pr_sm32\avr\test_pb2</WORKING_DIR>
+ <INCLUDE_PATH>
+  <DIR>C:\Program Files (x86)\Atmel\AVR Tools\AvrAssembler2\Appnotes</DIR>
+ </INCLUDE_PATH>
+ <SOURCE_FILE>E:\pr_sm32\avr\test_pb2\test.asm</SOURCE_FILE>
+ <INCLUDED_FILES>
+  <FILE>C:\Program Files (x86)\Atmel\AVR Tools\AvrAssembler2\Appnotes\m8def.inc</FILE>
+ </INCLUDED_FILES>
+ <OBJECT_FILES>
+  <FILE>E:\pr_sm32\avr\test_pb2\test.obj</FILE>
+ </OBJECT_FILES>
+ <HEX_FILES>
+  <FILE>E:\pr_sm32\avr\test_pb2\test.hex</FILE>
+ </HEX_FILES>
+ <OUTPUT_FILES>
+  <FILE>E:\pr_sm32\avr\test_pb2\test.map</FILE>
+ </OUTPUT_FILES>
+ <LABELS>
+  <StrPtr><FILE>E:\pr_sm32\avr\test_pb2\test.asm</FILE><LINE>11</LINE></StrPtr>
+  <RESET><FILE>E:\pr_sm32\avr\test_pb2\test.asm</FILE><LINE>109</LINE></RESET>
+  <TIM0><FILE>E:\pr_sm32\avr\test_pb2\test.asm</FILE><LINE>39</LINE></TIM0>
+  <USART_UDRE><FILE>E:\pr_sm32\avr\test_pb2\test.asm</FILE><LINE>63</LINE></USART_UDRE>
+  <end_timer><FILE>E:\pr_sm32\avr\test_pb2\test.asm</FILE><LINE>44</LINE></end_timer>
+  <String><FILE>E:\pr_sm32\avr\test_pb2\test.asm</FILE><LINE>107</LINE></String>
+  <out_byte><FILE>E:\pr_sm32\avr\test_pb2\test.asm</FILE><LINE>147</LINE></out_byte>
+  <Main><FILE>E:\pr_sm32\avr\test_pb2\test.asm</FILE><LINE>142</LINE></Main>
+  <PUSHF><FILE>E:\pr_sm32\avr\test_pb2\test.asm</FILE><LINE>154</LINE></PUSHF>
+  <POPF><FILE>E:\pr_sm32\avr\test_pb2\test.asm</FILE><LINE>161</LINE></POPF>
+ </LABELS>
+</ASSEMBLER_INFO>
