@@ -19,15 +19,17 @@
   <FILE>E:\pr_sm32\avr\test_pb2\test.map</FILE>
  </OUTPUT_FILES>
  <LABELS>
-  <StrPtr><FILE>E:\pr_sm32\avr\test_pb2\test.asm</FILE><LINE>11</LINE></StrPtr>
-  <RESET><FILE>E:\pr_sm32\avr\test_pb2\test.asm</FILE><LINE>109</LINE></RESET>
-  <TIM0><FILE>E:\pr_sm32\avr\test_pb2\test.asm</FILE><LINE>39</LINE></TIM0>
-  <USART_UDRE><FILE>E:\pr_sm32\avr\test_pb2\test.asm</FILE><LINE>63</LINE></USART_UDRE>
-  <end_timer><FILE>E:\pr_sm32\avr\test_pb2\test.asm</FILE><LINE>44</LINE></end_timer>
-  <String><FILE>E:\pr_sm32\avr\test_pb2\test.asm</FILE><LINE>107</LINE></String>
-  <out_byte><FILE>E:\pr_sm32\avr\test_pb2\test.asm</FILE><LINE>147</LINE></out_byte>
-  <Main><FILE>E:\pr_sm32\avr\test_pb2\test.asm</FILE><LINE>142</LINE></Main>
-  <PUSHF><FILE>E:\pr_sm32\avr\test_pb2\test.asm</FILE><LINE>154</LINE></PUSHF>
-  <POPF><FILE>E:\pr_sm32\avr\test_pb2\test.asm</FILE><LINE>161</LINE></POPF>
+  <StrPtr><FILE>E:\pr_sm32\avr\test_pb2\test.asm</FILE><LINE>14</LINE></StrPtr>
+  <RESET><FILE>E:\pr_sm32\avr\test_pb2\test.asm</FILE><LINE>104</LINE></RESET>
+  <TIM0><FILE>E:\pr_sm32\avr\test_pb2\test.asm</FILE><LINE>42</LINE></TIM0>
+  <USART_UDRE><FILE>E:\pr_sm32\avr\test_pb2\test.asm</FILE><LINE>66</LINE></USART_UDRE>
+  <end_timer><FILE>E:\pr_sm32\avr\test_pb2\test.asm</FILE><LINE>47</LINE></end_timer>
+  <String><FILE>E:\pr_sm32\avr\test_pb2\test.asm</FILE><LINE>102</LINE></String>
+  <stop_TX><FILE>E:\pr_sm32\avr\test_pb2\test.asm</FILE><LINE>92</LINE></stop_TX>
+  <Exit_TX><FILE>E:\pr_sm32\avr\test_pb2\test.asm</FILE><LINE>85</LINE></Exit_TX>
+  <Main><FILE>E:\pr_sm32\avr\test_pb2\test.asm</FILE><LINE>141</LINE></Main>
+  <out_byte><FILE>E:\pr_sm32\avr\test_pb2\test.asm</FILE><LINE>146</LINE></out_byte>
+  <PUSHF><FILE>E:\pr_sm32\avr\test_pb2\test.asm</FILE><LINE>153</LINE></PUSHF>
+  <POPF><FILE>E:\pr_sm32\avr\test_pb2\test.asm</FILE><LINE>160</LINE></POPF>
  </LABELS>
 </ASSEMBLER_INFO>

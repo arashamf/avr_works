@@ -1,1 +1,1 @@
-E:\soft\pb2_ftbb\avrdude.exe -p m8 -c 2ftbb -Pft0 -B 9600 -U flash:w:pr_sm32\avr\test_pb2\test.hex
+E:\soft\pb2_ftbb\avrdude.exe -p m8 -c 2ftbb -P ft0 -B 9600 -U flash:w:pr_sm32\avr\test_pb2\test.hex

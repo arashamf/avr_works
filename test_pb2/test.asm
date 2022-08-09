@@ -6,6 +6,9 @@
 .def temp_port = R17
 .def count_time = R18 ;счетчик задержки
 
+.equ LED_Mask = 0x3 
+.equ BAUD = 0x0C //делитель для UART 
+
 ; RAM ========================================================
 .DSEG
 StrPtr: .BYTE 2
@@ -43,49 +46,41 @@ reti ;иначе выход из прерывания
 
 end_timer:
 ldi temp, LED_Mask //запись битовой маски в регистр
-IN temp_port, PORTC //Чтение порта C
-EOR temp_port, temp //исключающее или
-OUT PORTC, temp_port //Запись в порт C
+in temp_port, PORTC //Чтение порта C
+eor temp_port, temp //исключающее или
+out PORTC, temp_port //Запись в порт C
 ldi count_time, 0x32 //установка нового значения задержки
 
-ldi 	ZL,low(String*2) 	; запись младшего байта адреса, в регистровую пару Z
-ldi  	ZH, high(String*2)	; запись старшего байта адреса, в регистровую пару Z
+ldi 	temp,low(String*2) 	; запись младшего байта адреса, в регистровую пару Z
+ldi  	temp_port, high(String*2)	; запись старшего байта адреса, в регистровую пару Z
+sts	StrPtr,temp		; сохраняем младший байт указателя на String (sts - вывод регистров периферии по полному адресу)
+sts	StrPtr+1,temp_port		; сохраняем сташрий байт
 
-ldi 	temp, (1<<RXEN)|(1<<TXEN)|(1<<RXCIE)|(1<<TXCIE)|(1<<UDRIE) //разрешение приёма, передачи, прерывания по опустошению регистра UDR
-//ldi 	temp, (1<<RXEN)|(1<<TXEN)
-//out 	UCSRB, temp
-//lpm 	temp, Z ;Загрузка байта памяти программ
-//ldi temp, 0x48
-rcall	out_byte	; Вызываем процедуру отправки байта.
+in temp_port, UCSRB //Чтение порта UCSRB
+ldi temp, (1<<UDRIE) //разрешение прерывания по опустошению регистра UDR
+add temp_port, temp //сложение без переноса
+out UCSRB, temp_port
 reti ;конец обработки прерывания таймера
 
 ; ----------------------------------------------------------------------
 USART_UDRE:
-//rcall PUSHF ; Макрос, сохраняющий SREG
-/*IN	temp, SREG
+in	temp, SREG
 push temp
 push ZL		; Сохраняем в стеке Z
-push ZH*/
+push ZH
 
-ldi 	ZL,low(String*2) 	; запись младшего байта адреса, в регистровую пару Z
-ldi  	ZH, high(String*2)	; запись старшего байта адреса, в регистровую пару Z
 
-/*sts	StrPtr,temp		; сохраняем младший байт указателя на String (sts - вывод регистров периферии по полному адресу)
-sts	StrPtr+1,temp_port		; сохраняем сташрий байт
+lds	ZL, StrPtr	; сохранение указателей в индексные регистры
+lds	ZH, StrPtr+1
 
-lds	ZL,StrPtr	; сохранение указателей в индексные регистры
-lds	ZH,StrPtr+1*/
+lpm	temp,Z+		; копирование байт из строки
+out	UDR,temp		; Выдача данных в уарт. 
 
-lpm	temp,Z		; копирование байт из строки
+cpi temp,'\n'		; если не \n,продолжаем чтение
+breq stop_TX	; иначе остановка передачи (breq - Перейти если равно)
  
-
-/*cpi temp,0		; если не ноль,продолжаем чтение
-breq stop_TX	; иначе остановка передачи (breq - Перейти если равно)*/
- 
-out	UDR,temp		; Выдача данных в уарт.
- 
-/*sts	StrPtr,ZL	; Сохраняем указатель обратно, в память
-sts	StrPtr+1,ZH	; 
+sts	StrPtr,ZL	; Сохраняем указатель обратно, в память
+sts	StrPtr+1,ZH	; sts - загрузить непосредственно в СОЗУ
 
 Exit_TX:	
 pop	ZH		; копирование из стека
@@ -95,26 +90,23 @@ out	SREG,temp
 reti ;конец обработки прерывания
 
 stop_TX:
-ldi 	temp, (0<<RXEN)|(0<<TXEN)|(0<<UDRIE) ; отключение прерывания по опустошению, выход из обработчика
-out 	UCSRB, temp
-rjmp	Exit_TX*/
+in temp_port, UCSRB ;чтение порта UCSRB
+ldi temp, (1<<UDRIE) ;запрещение прерывания по опустошению регистра UDR
+com temp ;побитная инверсия ( дополнение до единицы)
+and temp_port, temp ;логическое AND
+out UCSRB, temp_port
+rjmp	Exit_TX
 
-ldi 	temp, (0<<RXEN)|(0<<TXEN)|(0<<RXCIE)|(0<<TXCIE)|(0<<UDRIE) ; отключение прерывания по опустошению, выход из обработчика
-out 	UCSRB, temp
-reti
 ; End Interrupts ==========================================
 
-String:		.DB	"HELLO",0
+String:		.DB	"HELLO",'\r','\n',0 //0 - признак конца строки
 
 Reset:
 ; ----- инициализация стека -----
-ldi temp, Low(RAMEND)  ; младший байт конечного адреса ОЗУ в R16 (LDI - Загрузить непосредственное значение)
+ldi temp, Low(RAMEND)  ; младший байт конечного адреса ОЗУ в R16 
 out SPL, temp          ; установка младшего байта указателя стека (OUT - Записать данные из регистра)
 ldi temp, High(RAMEND) ; старший байт конечного адреса ОЗУ в R16
 out SPH, temp          ; установка старшего байта указателя стека
-
-.equ LED_Mask = 0x3 
-.equ BAUD = 0x0C //делитель для UART 
 
 ; ----- устанавливаем пины PC0 и PC1 порта PORTC на вывод -----
 ldi temp, 0b00000011   ; поместим в регистр R16 число 3 (0x3)
@@ -129,15 +121,22 @@ out TIMSK, temp ;разрешаем прерывания Timer0
 ldi temp, (1<<CS02) 
 out TCCR0,temp ;запускаем Timer0 div 1:256
 ldi count_time, 0x32
-sei ;разрешаем прерывания
 
 ; ----- конфигурирование UART -----
 ldi temp,BAUD ;скорость передачи 19200 при 4 МГц
 out UBRRL, temp
-ldi temp,(1<<RXEN)|(1<<TXEN) ;разрешение прием-передачу
-out UCSRB,temp
 ldi temp, (1<<URSEL)|(3<<UCSZ0) ;UCSZ0=1, UCSZ1=1, формат 8n1
 out UCSRC,temp
+ldi temp, (1<<RXEN)|(1<<TXEN)|((1<<RXCIE))|(1<<TXCIE) //разрешение прерываний UART
+out UCSRB, temp
+
+; ----- присвоение указателя StrPtr на массив String-----
+ldi 	temp,low(String*2) 	; запись младшего байта адреса массива
+ldi  	temp_port, high(String*2)	; запись старшего байта адреса массива
+sts	StrPtr,temp		; сохраняем младший байт указателя на String (sts - вывод регистров периферии по полному адресу)
+sts	StrPtr+1,temp_port		; сохраняем старший байт указателя на String
+
+sei ;разрешаем прерывания
 
 Main:
 rjmp Main
@@ -152,14 +151,14 @@ ret ;возврат из процедуры Out_com             ; возврат из подпрограммы Wait
 
 ; ----- подпрограмма сохранения регистра статуса в стеке -----
 PUSHF:
-;PUSH	temp
-IN	temp, SREG
-PUSH temp
+;push	temp
+in	temp, SREG
+push temp
 ret
 
 ; ----- подпрограмма чтения регистра статуса из стека -----
 POPF:
-POP	temp
-OUT	SREG,temp
-;POP temp
+pop	temp
+out	SREG,temp
+;pop temp
 ret
