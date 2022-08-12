@@ -1,0 +1,36 @@
+<ASSEMBLER_INFO>
+ <VERSION>2.1.17</VERSION>
+ <DEVICE>ATmega8</DEVICE>
+ <WORKING_DIR>E:\pr_sm32\avr_works\timer_delay1s</WORKING_DIR>
+ <INCLUDE_PATH>
+  <DIR>C:\Program Files (x86)\Atmel\AVR Tools\AvrAssembler2\Appnotes</DIR>
+ </INCLUDE_PATH>
+ <SOURCE_FILE>E:\pr_sm32\avr_works\timer_delay1s\timer_delay1s.asm</SOURCE_FILE>
+ <INCLUDED_FILES>
+  <FILE>C:\Program Files (x86)\Atmel\AVR Tools\AvrAssembler2\Appnotes\m8def.inc</FILE>
+ </INCLUDED_FILES>
+ <OBJECT_FILES>
+  <FILE>E:\pr_sm32\avr_works\timer_delay1s\timer_delay1s.obj</FILE>
+ </OBJECT_FILES>
+ <HEX_FILES>
+  <FILE>E:\pr_sm32\avr_works\timer_delay1s\timer_delay1s.hex</FILE>
+ </HEX_FILES>
+ <OUTPUT_FILES>
+  <FILE>E:\pr_sm32\avr_works\timer_delay1s\timer_delay1s.map</FILE>
+ </OUTPUT_FILES>
+ <LABELS>
+  <TCNT><FILE>E:\pr_sm32\avr_works\timer_delay1s\timer_delay1s.asm</FILE><LINE>83</LINE></TCNT>
+  <StrPtr><FILE>E:\pr_sm32\avr_works\timer_delay1s\timer_delay1s.asm</FILE><LINE>84</LINE></StrPtr>
+  <Reset><FILE>E:\pr_sm32\avr_works\timer_delay1s\timer_delay1s.asm</FILE><LINE>147</LINE></Reset>
+  <TIM0><FILE>E:\pr_sm32\avr_works\timer_delay1s\timer_delay1s.asm</FILE><LINE>113</LINE></TIM0>
+  <String><FILE>E:\pr_sm32\avr_works\timer_delay1s\timer_delay1s.asm</FILE><LINE>145</LINE></String>
+  <RAM_Flush><FILE>E:\pr_sm32\avr_works\timer_delay1s\timer_delay1s.asm</FILE><LINE>154</LINE></RAM_Flush>
+  <Flush><FILE>E:\pr_sm32\avr_works\timer_delay1s\timer_delay1s.asm</FILE><LINE>157</LINE></Flush>
+  <Main><FILE>E:\pr_sm32\avr_works\timer_delay1s\timer_delay1s.asm</FILE><LINE>237</LINE></Main>
+  <Next><FILE>E:\pr_sm32\avr_works\timer_delay1s\timer_delay1s.asm</FILE><LINE>239</LINE></Next>
+  <NoMatch><FILE>E:\pr_sm32\avr_works\timer_delay1s\timer_delay1s.asm</FILE><LINE>291</LINE></NoMatch>
+  <Match><FILE>E:\pr_sm32\avr_works\timer_delay1s\timer_delay1s.asm</FILE><LINE>250</LINE></Match>
+  <continue_TX><FILE>E:\pr_sm32\avr_works\timer_delay1s\timer_delay1s.asm</FILE><LINE>274</LINE></continue_TX>
+  <out_byte><FILE>E:\pr_sm32\avr_works\timer_delay1s\timer_delay1s.asm</FILE><LINE>277</LINE></out_byte>
+ </LABELS>
+</ASSEMBLER_INFO>

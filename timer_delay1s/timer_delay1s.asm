@@ -122,7 +122,7 @@ TIM0:
 		lds		R19,TCNT+3
 
 		subi	R16,(-1) ;сложение младшего байта 4 байтного числа с 1 
-		sbci	R17,(-1) ;сложение с переносом второго байта 4 байтного числа с 1 с переносом
+		sbci	R17,(-1) ;сложение второго байта 4 байтного числа с 1 и с флагом переноса (С) регистра SREG (флаг переноса равен нулю, если предыдущее действие вызвало переполнение )
 		sbci	R18,(-1) 
 		sbci	R19,(-1)
 
@@ -142,7 +142,7 @@ reti ;конец обработки прерывания таймера
 
 ; End Interrupts ==========================================
 
-String:		.DB	"HELLO",'\r','\n',0
+String:		.DB	"HELLO",'\r','\n'
 
 Reset:   	LDI 	R16,Low(RAMEND)	; инициализация стека
 		    OUT 	SPL,R16			; 
@@ -194,26 +194,22 @@ Flush:		ST 		Z+,temp				; сохранем 0 в ячейку памяти
 			CLR		R28
 			CLR		R29
 
-; ----- конфигурирование таймера 1 -----
-ldi 	temp , ((1<<COM1A1)|(0<<COM1A0)|(1<<COM1B1)|(0<<COM1B0)|(1<<WGM10)|(0<<WGM11)) 
-out 	TCCR1A, temp
-ldi 	temp , ((0<<WGM13)|(1<<WGM12)|(1<<CS10)) 
-out 	TCCR1B, temp	
+; ----- конфигурирование таймера 0 -----
+clr temp  ;запишем нуль в регистр R16
+ldi temp,(1<<TOIE0) 
+out TIMSK, temp ;разрешаем прерывания Timer0 
 
-CLI
-OUTI	OCR1AH,0
-OUTI	OCR1AL,15
- 
-OUTI	OCR1BH,0
-OUTI	OCR1BL,32
-SEI
+ldi temp, (1<<CS00) 
+out TCCR0,temp ;запускаем Timer0 no prescaling
+
 ; End coreinit.inc
 
 ; Internal Hardware Init  ======================================
-; ----- ШИМ будет на выводах 1 и 2 порта B -----
-ldi 	temp , ((1 <<DDB1)|(1 <<DDB2)|(1 <<DDB3))	
-out 	DDRB, temp
-
+; ----- устанавливаем пины PC3 и PC4 порта PORTC на вывод -----
+ldi 	temp, ((1 << DDC3) | (1 << DDC4))  
+out 	DDRC, temp         ;пины PC3 и PC4 на выход
+sbi 	PORTC, PORTC3;	 	подача на пин PC3 высокого уровня
+cbi 	PORTC, PORTC4 ; 	подача на пин PC4 низкого уровня (CBI - Очистить бит в регистре I/O)
 ; End Internal Hardware Init ===================================
 
 ; External Hardware Init  ======================================
@@ -239,8 +235,60 @@ sei ;разрешения прерываний
 
 ; Main =========================================================
 Main:
-NOP
 
+Next: 
+lds 	temp, TCNT ; 	Грузим числа в регистры
+lds 	temp_port,TCNT+1
+
+cpi		temp,0x09 ;сравнение R16 с константой, устанавливает в 1 бит С регистра SREG, если костанта больше R16	
+;cpi		temp,0x12 
+brcs	NoMatch ;переход если установлен бит С регистра SREG
+cpi		temp_port,0x3D ;задержка ~1c при 4 МГц
+;cpi 	temp_port,0x7A
+brcs	NoMatch
+
+Match:		INVB	PORTC,PORTC3,temp,temp_port	; инвертирование PC3
+			INVB	PORTC,PORTC4,temp,temp_port	; инвертирование PC4
+
+; теперь надо обнулить счётчик, иначе за эту же итерациб главного цикла
+; мы сюда попадём ещё не один раз -- таймер то не успеет натикать 255 значений
+; чтобы число в первых двух байтах счётчика изменилось 
+
+clr		temp	;очистка R16
+cli 	;Запрет прерываний
+
+sts		TCNT0,temp //очистка счётного регистра таймера				
+sts		TCNT,temp  //очистка 4 байтного числа		
+sts		TCNT+1,temp		
+sts		TCNT+2,temp		
+sts		TCNT+3,temp		
+
+PUSHF
+push	temp_port
+push	R18
+push	R19
+
+lds	ZL, StrPtr	; копирование указателей на строку в индексные регистры
+lds	ZH, StrPtr+1
+
+continue_TX:
+lpm	temp,Z+	
+	
+out_byte: 
+sbis UCSRA,UDRE 		;SBIS - пропустить если бит UDRE (готов к передаче) установлен
+rjmp out_byte
+out UDR,temp		 ;отправка байта
+
+cpi temp,'\n'		; 	если не \n, продолжаем отправку по УАРТ
+brne continue_TX	; 	иначе остановка передачи (brne - перейти если не равно)
+
+pop	R19
+pop	R18
+pop	temp_port
+POPF
+sei ;разрешения прерываний
+
+NoMatch:				
 rjmp	Main
 
 ; ----- подпрограмма отправки байта по UART -----
@@ -260,3 +308,4 @@ ret ;*/
 
 ; EEPROM =====================================================
 			.ESEG				; ??????? EEPROM
+

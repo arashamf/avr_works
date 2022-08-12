@@ -1,0 +1,2 @@
+@ECHO OFF
+"C:\Program Files (x86)\Atmel\AVR Tools\AvrAssembler2\avrasm2.exe" -S "E:\pr_sm32\avr_works\timer_delay1s\labels.tmp" -fI -W+ie -o "E:\pr_sm32\avr_works\timer_delay1s\timer_delay1s.hex" -d "E:\pr_sm32\avr_works\timer_delay1s\timer_delay1s.obj" -e "E:\pr_sm32\avr_works\timer_delay1s\timer_delay1s.eep" -m "E:\pr_sm32\avr_works\timer_delay1s\timer_delay1s.map" "E:\pr_sm32\avr_works\timer_delay1s\timer_delay1s.asm"
